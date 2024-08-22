@@ -1,0 +1,99 @@
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #003366;
+    border-radius: 10px;
+    background-color: #f4f4f4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .container h2 {
+    margin-bottom: 20px;
+    color: #003366;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .input-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #003366;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .silt-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: 25px;
+    position: relative;
+  }
+  
+  .silt-level {
+    height: 100%;
+    text-align: center;
+    line-height: 25px;
+    color: #fff;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+  }
+  
+  .btn:hover {
+    background-color: #002244;
+  }
+  
+  .predict-btn {
+    background-color: #059212;
+  }
+  
+  .predict-btn:hover {
+    background-color: #04600b;
+  }
+  
+  .message {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  .warning {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .success {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .prediction {
+    color: #003366;
+    font-weight: bold;
+  }

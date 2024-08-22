@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import video from '../components/backgroundsignup.mp4';
+import video from '../assests2/video.mp4';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -37,7 +37,7 @@ const Signup = () => {
     if (!formData.password) newErrors.password = 'Password is required';
     if (!formData.govtId) newErrors.govtId = 'Government ID Number is required';
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{5,15}$/;
+    const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.*\W).{5,15}$/;
     if (formData.password && !passwordRegex.test(formData.password)) {
       newErrors.password = 'Password must be 5-15 characters long and include an uppercase letter, lowercase letter, and a special character';
     }
@@ -75,9 +75,9 @@ const Signup = () => {
 
   return (
     <div className='signup-container'>
-      {/* <video className='signup-background' autoPlay loop muted>
+      <video className='signup-background' autoPlay loop muted>
         <source src={video} type='video/mp4' />
-      </video> */}
+      </video>
       <div className='signup-content'>
         <Paper elevation={10} square className="signup-paper" style={{ backgroundColor: "silver", maxWidth: '300px', padding: '20px', margin: 'auto', marginTop: '50px' }}>
           <Typography variant="h4" align="center" gutterBottom>

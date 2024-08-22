@@ -1,86 +1,93 @@
+/* Navbar Container */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 0 20px;
   background-color: #333;
   color: #fff;
 }
 
-.navbar-brand a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: bold;
+/* Navbar Brand */
+.navbar-brand {
+  display: flex;
+  align-items: center;
 }
 
+/* Navbar Links */
 .navbar-links {
   display: flex;
   align-items: center;
 }
 
 .navbar-link {
-  margin-left: 1.5rem;
+  margin-right: 20px;
   color: #fff;
   text-decoration: none;
-  font-size: 1rem;
 }
 
 .navbar-link:hover {
   text-decoration: underline;
 }
 
+/* Navbar Profile */
 .navbar-profile {
   position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
 }
 
 .profile-circle {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background-color: #555;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
-  font-size: 1.2rem;
-  margin-left: 1.5rem;
+  cursor: pointer;
 }
 
 .profile-dropdown {
-  display: none;
   position: absolute;
-  top: 50px;
+  top: 40px;
   right: 0;
-  background-color: #fff;
-  color: #333;
-  padding: 0.5rem;
+  background-color: #444;
+  padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.profile-dropdown .profile-username {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
+.profile-username {
+  color: #fff;
+  margin-bottom: 10px;
 }
 
 .logout-button {
-  background-color: #f44336;
-  color: #fff;
+  background: none;
   border: none;
-  padding: 0.5rem 1rem;
+  color: #fff;
   cursor: pointer;
-  border-radius: 3px;
+  margin-top: 10px;
 }
 
-.logout-button:hover {
-  background-color: #d32f2f;
+.MuiDrawer-paper {
+  width: 240px; 
+  box-sizing: border-box;
+  background-color: #0073cf; 
+  color: #fff;
 }
 
-.navbar-profile:hover .profile-dropdown {
-  display: block;
+.sidebar-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color:#0073cf; 
+}
+
+.MuiListItemButton-root:hover {
+  background-color: #0073cf; 
+}
+
+.MuiListItemText-primary {
+  color: #fff;
 }
