@@ -14,6 +14,7 @@
     "axios": "^1.7.4",
     "icons": "^1.0.0",
     "leaflet": "^1.9.4",
+    "node-fetch": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
@@ -22,7 +23,8 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "sihfile": "file:",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "whatwg-fetch": "^3.6.20"
   },
   "scripts": {
     "start": "react-scripts start",

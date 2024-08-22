@@ -1,4 +1,220 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+// import { Link, useNavigate } from 'react-router-dom';
+// import AppBar from '@mui/material/AppBar';
+// import Box from '@mui/material/Box';
+// import Toolbar from '@mui/material/Toolbar';
+// import Typography from '@mui/material/Typography';
+// import IconButton from '@mui/material/IconButton';
+// import Drawer from '@mui/material/Drawer';
+// import List from '@mui/material/List';
+// import ListItemText from '@mui/material/ListItemText';
+// import MenuIcon from '@mui/icons-material/Menu';
+// import CloseIcon from '@mui/icons-material/Close';
+// import Menu from '@mui/material/Menu';
+// import MenuItem from '@mui/material/MenuItem';
+// import Button from '@mui/material/Button';
+// import './Navbar.css';
+
+// const drawerWidth = 150;
+
+// const Navbar = () => {
+//   const [isLoggedIn, setIsLoggedIn] = useState(false);
+//   const [username, setUsername] = useState('');
+//   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+//   const [anchorEl, setAnchorEl] = useState(null);
+//   const [isProfileOpen, setIsProfileOpen] = useState(false); // State for toggling logout option
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const loggedInUser = localStorage.getItem('username');
+//     if (loggedInUser) {
+//       setIsLoggedIn(true);
+//       setUsername(loggedInUser);
+//     }
+//   }, []);
+
+//   const handleLogout = () => {
+//     setIsLoggedIn(false);
+//     setUsername('');
+//     localStorage.removeItem('username');
+//     navigate('/login');
+//   };
+
+//   const toggleSidebar = () => {
+//     setIsSidebarOpen(prevState => !prevState);
+//   };
+
+//   const handleCloseSidebar = () => {
+//     setIsSidebarOpen(false);
+//   };
+
+//   const handleCropsClick = (event) => {
+//     setAnchorEl(event.currentTarget);
+//   };
+
+//   const handleMenuClose = () => {
+//     setAnchorEl(null);
+//   };
+
+//   const toggleProfileDropdown = () => {
+//     setIsProfileOpen(prevState => !prevState);
+//   };
+
+//   return (
+//     <>
+//       <AppBar position="fixed" style={{ backgroundColor: "#0073cf" }}>
+//         <Toolbar>
+//           &emsp;&emsp;
+//           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar}>
+//             <MenuIcon />
+//           </IconButton>
+//           <Typography variant="h6" noWrap component="div" style={{ marginRight: "470px" }}>
+//             Blue Field Techno
+//           </Typography>
+
+//           <div className="navbar-links">
+//             <Link to="/" className="navbar-link">
+//               <Button style={{color:"white"}}>
+//                 Home
+//               </Button>
+//             </Link>
+
+//             {!isLoggedIn ? (
+//               <>
+//                 <Link to="/login" className="navbar-link">
+//                   <Button style={{color:"white"}}>
+//                     Login
+//                   </Button>
+//                 </Link>
+
+//                 <Link to="/signup" className="navbar-link">
+//                   <Button style={{color:"white"}}>
+//                     Sign Up
+//                   </Button>
+//                 </Link>
+//               </>
+//             ) : (
+//               <>
+//                 <Button  aria-controls="crops-menu"
+//                   aria-haspopup="true"
+//                   onClick={handleCropsClick}
+//                   style={{fontSize:"14.5px",color:"white"}}
+//                 >
+//                   Crops&emsp;
+//                 </Button>
+//                 <Menu
+//                   id="crops-menu"
+//                   anchorEl={anchorEl}
+//                   keepMounted
+//                   open={Boolean(anchorEl)}
+//                   onClose={handleMenuClose}
+//                 >
+//                   <MenuItem onClick={handleMenuClose}>
+//                     <Link to="/cropimprovement" className="menu-link">
+//                       <Button>
+//                         Crop Improvement
+//                       </Button>
+//                     </Link>
+//                   </MenuItem>
+//                   <MenuItem onClick={handleMenuClose}>
+//                     <Link to="/cropmanagement" className="menu-link">
+//                       <Button>
+//                         Crop Management
+//                       </Button>
+//                     </Link>
+//                   </MenuItem>
+//                   <MenuItem onClick={handleMenuClose}>
+//                     <Link to="/cropirrigation" className="menu-link">
+//                       <Button>
+//                         Crop Irrigation
+//                       </Button>
+//                     </Link>
+//                   </MenuItem>
+//                 </Menu>
+
+//                 <Link to="/weather1" className="navbar-link">
+//                   <Button style={{color:"white"}}>
+//                     Weather
+//                   </Button>
+//                 </Link>
+//                 <Link to="/maps" className="navbar-link">
+//                   <Button style={{color:"white"}}>
+//                     Maps
+//                   </Button>
+//                 </Link>
+//                 <Link to="/cropweather">
+//                   <Button style={{color:"white"}}>Crop Weather</Button>
+//                 </Link>
+//                 <Link to="/carbornfootprint">
+//                   <Button style={{color:"white"}}>Carborn Footprint</Button>
+//                 </Link>
+
+//                 <div className="navbar-profile" onClick={toggleProfileDropdown} style={{cursor: 'pointer'}}>
+//                   <div className="profile-circle">
+//                     <span>{username.charAt(0)}</span>
+//                   </div>
+//                   {isProfileOpen && (
+//                     <div className="profile-dropdown">
+//                       <span className="profile-username">{username}</span>
+//                       <button className="logout-button" onClick={handleLogout}>Logout</button>
+//                     </div>
+//                   )}
+//                 </div>
+//               </>
+//             )}
+//           </div>
+//         </Toolbar>
+//       </AppBar>
+
+//       <Drawer
+//         variant="persistent"
+//         anchor="left"
+//         open={isSidebarOpen}
+//         sx={{
+//           width: drawerWidth,
+//           flexShrink: 0,
+//           '& .MuiDrawer-paper': {
+//             width: drawerWidth,
+//             boxSizing: 'border-box',
+//             backgroundColor: '#0073cf',
+//             color: '#fff',
+//           },
+//         }}
+//       >
+//         <Toolbar />
+//         <div className="sidebar-header">
+//           <IconButton edge="start" color="inherit" aria-label="close" onClick={handleCloseSidebar}>
+//             <CloseIcon />
+//           </IconButton>
+//         </div>
+//         <Box sx={{ overflow: 'auto' }}>
+//           <List>
+//             <Link to="/weather">
+//               <Button>
+//                 <ListItemText primary="Weather" />
+//               </Button>
+//             </Link>
+//             <a href="http://tnagriculture.in/ARS/home/reservoir" target="_blank">
+//               <Button>
+//                 <ListItemText primary="Dam Level" />
+//               </Button>
+//             </a>
+//             <Link to="/daminspection">
+//               <Button><ListItemText primary="Inspection" /></Button>
+//             </Link>
+//             <Link to="/email">
+//               <Button><ListItemText primary="Email" /></Button>
+//             </Link>
+//           </List>
+//         </Box>
+//       </Drawer>
+//     </>
+//   );
+// };
+
+// export default Navbar;
+
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,17 +229,70 @@ import CloseIcon from '@mui/icons-material/Close';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import MicIcon from '@mui/icons-material/Mic';
 import './Navbar.css';
 
 const drawerWidth = 150;
+
+const translations = {
+  en: {
+    home: 'Home',
+    login: 'Login',
+    signup: 'Sign Up',
+    crops: 'Crops',
+    cropImprovement: 'Crop Improvement',
+    cropManagement: 'Crop Management',
+    cropIrrigation: 'Crop Irrigation',
+    weather: 'Weather',
+    maps: 'Maps',
+    cropWeather: 'Crop Weather',
+    carbonFootprint: 'Carbon Footprint',
+    profile: 'Profile',
+    logout: 'Logout',
+    voice: 'Voice',
+    damLevel: 'Dam Level',
+    inspection: 'Inspection',
+    email: 'Email',
+    title: 'Blue Field Techno',
+    language: 'Language',
+    english: 'English',
+    tamil: 'தமிழ்',
+  },
+  ta: {
+    home: 'முகப்பு',
+    login: 'உள்நுழைய',
+    signup: 'பதிவு செய்ய',
+    crops: 'பயிர்கள்',
+    cropImprovement: 'பயிர் மேம்பாடு',
+    cropManagement: 'பயிர் மேலாண்மை',
+    cropIrrigation: 'பயிர் பாசனம்',
+    weather: 'வானிலை',
+    maps: 'வரைபடங்கள்',
+    cropWeather: 'பயிர் காலநிலை',
+    carbonFootprint: 'கார்பன் கால்',
+    profile: 'சுயவிவரம்',
+    logout: 'வெளியேறு',
+    voice: 'குரல்',
+    damLevel: 'அணை நிலை',
+    inspection: 'ஆய்வு',
+    email: 'மின்னஞ்சல்',
+    title: 'ப்ளூ பீல்ட் டெக்னோ',
+    language: 'மொழி',
+    english: 'ஆங்கிலம்',
+    tamil: 'தமிழ்',
+  }
+};
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isProfileOpen, setIsProfileOpen] = useState(false); // State for toggling logout option
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [languageAnchorEl, setLanguageAnchorEl] = useState(null);
+  const [language, setLanguage] = useState('en');
   const navigate = useNavigate();
+  const recognitionRef = useRef(null);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('username');
@@ -31,7 +300,73 @@ const Navbar = () => {
       setIsLoggedIn(true);
       setUsername(loggedInUser);
     }
-  }, []);
+
+    const setupSpeechRecognition = () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+      
+      recognitionRef.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognitionRef.current.lang = language === 'en' ? 'en-US' : 'ta-IN';
+      recognitionRef.current.interimResults = false;
+
+      recognitionRef.current.onresult = function (event) {
+        var last = event.results.length - 1;
+        var command = event.results[last][0].transcript.toLowerCase();
+
+        if (command.includes(translations[language].home.toLowerCase())) {
+          navigate('/');
+        } else if (command.includes(translations[language].login.toLowerCase())) {
+          navigate('/login');
+        } else if (command.includes(translations[language].signup.toLowerCase())) {
+          navigate('/signup');
+        } else if (command.includes(translations[language].cropImprovement.toLowerCase())) {
+          navigate('/cropimprovement');
+        } else if (command.includes(translations[language].cropManagement.toLowerCase())) {
+          navigate('/cropmanagement');
+        } else if (command.includes(translations[language].cropIrrigation.toLowerCase())) {
+          navigate('/cropirrigation');
+        } else if (command.includes(translations[language].weather.toLowerCase())) {
+          navigate('/weather1');
+        } else if (command.includes(translations[language].maps.toLowerCase())) {
+          navigate('/maps');
+        } else if (command.includes(translations[language].cropWeather.toLowerCase())) {
+          navigate('/cropweather');
+        } else if (command.includes(translations[language].carbonFootprint.toLowerCase())) {
+          navigate('/carbornfootprint');
+        } else if (command.includes(translations[language].profile.toLowerCase())) {
+          navigate('/profile');
+        } else if (command.includes(translations[language].logout.toLowerCase())) {
+          handleLogout();
+        }
+      };
+
+      recognitionRef.current.onspeechend = function () {
+        recognitionRef.current.stop();
+      };
+
+      recognitionRef.current.onerror = function (event) {
+        console.error('Error occurred in recognition:', event.error);
+      };
+    };
+
+    setupSpeechRecognition();
+
+    const startRecognition = () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.start();
+      }
+    };
+
+    document.getElementById('btnGiveCommand')?.addEventListener('click', startRecognition);
+
+    return () => {
+      document.getElementById('btnGiveCommand')?.removeEventListener('click', startRecognition);
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, [navigate, language]);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -60,6 +395,19 @@ const Navbar = () => {
     setIsProfileOpen(prevState => !prevState);
   };
 
+  const handleLanguageMenuOpen = (event) => {
+    setLanguageAnchorEl(event.currentTarget);
+  };
+
+  const handleLanguageMenuClose = () => {
+    setLanguageAnchorEl(null);
+  };
+
+  const handleLanguageChange = (lang) => {
+    setLanguage(lang);
+    handleLanguageMenuClose();
+  };
+
   return (
     <>
       <AppBar position="fixed" style={{ backgroundColor: "#0073cf" }}>
@@ -69,13 +417,13 @@ const Navbar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" style={{ marginRight: "470px" }}>
-            Blue Field Techno
+            {translations[language].title}
           </Typography>
 
           <div className="navbar-links">
             <Link to="/" className="navbar-link">
               <Button style={{color:"white"}}>
-                Home
+                {translations[language].home}
               </Button>
             </Link>
 
@@ -83,24 +431,25 @@ const Navbar = () => {
               <>
                 <Link to="/login" className="navbar-link">
                   <Button style={{color:"white"}}>
-                    Login
+                    {translations[language].login}
                   </Button>
                 </Link>
 
                 <Link to="/signup" className="navbar-link">
                   <Button style={{color:"white"}}>
-                    Sign Up
+                    {translations[language].signup}
                   </Button>
                 </Link>
               </>
             ) : (
               <>
-                <Button  aria-controls="crops-menu"
+                <Button 
+                  aria-controls="crops-menu"
                   aria-haspopup="true"
                   onClick={handleCropsClick}
                   style={{fontSize:"14.5px",color:"white"}}
                 >
-                  Crops&emsp;
+                  {translations[language].crops}&emsp;
                 </Button>
                 <Menu
                   id="crops-menu"
@@ -112,99 +461,133 @@ const Navbar = () => {
                   <MenuItem onClick={handleMenuClose}>
                     <Link to="/cropimprovement" className="menu-link">
                       <Button>
-                        Crop Improvement
+                        {translations[language].cropImprovement}
                       </Button>
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
                     <Link to="/cropmanagement" className="menu-link">
                       <Button>
-                        Crop Management
+                        {translations[language].cropManagement}
                       </Button>
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={handleMenuClose}>
                     <Link to="/cropirrigation" className="menu-link">
                       <Button>
-                        Crop Irrigation
+                        {translations[language].cropIrrigation}
                       </Button>
                     </Link>
                   </MenuItem>
                 </Menu>
-
+                
                 <Link to="/weather1" className="navbar-link">
                   <Button style={{color:"white"}}>
-                    Weather
+                    {translations[language].weather}
                   </Button>
                 </Link>
                 <Link to="/maps" className="navbar-link">
                   <Button style={{color:"white"}}>
-                    Maps
+                    {translations[language].maps}
                   </Button>
                 </Link>
-                <Link to="/cropweather">
-                  <Button style={{color:"white"}}>Crop Weather</Button>
+                <Link to="/cropweather" className="navbar-link">
+                  <Button style={{color:"white"}}>
+                    {translations[language].cropWeather}
+                  </Button>
                 </Link>
-                <Link to="/carbornfootprint">
-                  <Button style={{color:"white"}}>Carborn Footprint</Button>
+                <Link to="/carbornfootprint" className="navbar-link">
+                  <Button style={{color:"white"}}>
+                    {translations[language].carbonFootprint}
+                  </Button>
                 </Link>
 
-                <div className="navbar-profile" onClick={toggleProfileDropdown} style={{cursor: 'pointer'}}>
-                  <div className="profile-circle">
-                    <span>{username.charAt(0)}</span>
+                <Button
+                  onClick={toggleProfileDropdown}
+                  style={{color:"white"}}
+                >
+                  {translations[language].profile}
+                </Button>
+                {isProfileOpen && (
+                  <div className="profile-dropdown">
+                    <Button onClick={handleLogout}>
+                      {translations[language].logout}
+                    </Button>
                   </div>
-                  {isProfileOpen && (
-                    <div className="profile-dropdown">
-                      <span className="profile-username">{username}</span>
-                      <button className="logout-button" onClick={handleLogout}>Logout</button>
-                    </div>
-                  )}
-                </div>
+                )}
               </>
             )}
+            <Button 
+              onClick={handleLanguageMenuOpen}
+              style={{color:"white"}}
+            >
+              {translations[language].language}
+            </Button>
+            <Menu
+              id="language-menu"
+              anchorEl={languageAnchorEl}
+              keepMounted
+              open={Boolean(languageAnchorEl)}
+              onClose={handleLanguageMenuClose}
+            >
+              <MenuItem onClick={() => handleLanguageChange('en')}>
+                {translations[language].english}
+              </MenuItem>
+              <MenuItem onClick={() => handleLanguageChange('ta')}>
+                {translations[language].tamil}
+              </MenuItem>
+            </Menu>
           </div>
+          <IconButton
+            id="btnGiveCommand"
+            color="inherit"
+            aria-label="voice command"
+          >
+            <MicIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
-
       <Drawer
-        variant="persistent"
+        variant="temporary"
         anchor="left"
         open={isSidebarOpen}
+        onClose={toggleSidebar}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
-            backgroundColor: '#0073cf',
-            color: '#fff',
           },
         }}
       >
-        <Toolbar />
-        <div className="sidebar-header">
-          <IconButton edge="start" color="inherit" aria-label="close" onClick={handleCloseSidebar}>
+        <Box sx={{ textAlign: 'center' }}>
+          <IconButton onClick={toggleSidebar}>
             <CloseIcon />
           </IconButton>
-        </div>
-        <Box sx={{ overflow: 'auto' }}>
           <List>
-            <Link to="/weather">
-              <Button>
-                <ListItemText primary="Weather" />
-              </Button>
+            <Link to="/" onClick={toggleSidebar} className="sidebar-link">
+              <ListItemText primary={translations[language].home} />
             </Link>
-            <a href="http://tnagriculture.in/ARS/home/reservoir" target="_blank">
-              <Button>
-                <ListItemText primary="Dam Level" />
-              </Button>
-            </a>
-            <Link to="/daminspection">
-              <Button><ListItemText primary="Inspection" /></Button>
-            </Link>
-            <Link to="/email">
-              <Button><ListItemText primary="Email" /></Button>
-            </Link>
+            {!isLoggedIn ? (
+              <>
+                <Link to="/login" onClick={toggleSidebar} className="sidebar-link">
+                  <ListItemText primary={translations[language].login} />
+                </Link>
+                <Link to="/signup" onClick={toggleSidebar} className="sidebar-link">
+                  <ListItemText primary={translations[language].signup} />
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/profile" onClick={toggleSidebar} className="sidebar-link">
+                  <ListItemText primary={translations[language].profile} />
+                </Link>
+                <Link to="/logout" onClick={toggleSidebar} className="sidebar-link">
+                  <ListItemText primary={translations[language].logout} />
+                </Link>
+              </>
+            )}
           </List>
         </Box>
       </Drawer>
@@ -213,3 +596,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

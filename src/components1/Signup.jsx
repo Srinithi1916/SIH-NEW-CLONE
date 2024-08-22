@@ -1,174 +1,217 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import video from '../assests2/video.mp4';
+import video from '../assests1/video.mp4';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './Signup.css';
+import axios from 'axios';
 
 const Signup = () => {
+  const [userType, setUserType] = useState('Normal User');
   const [formData, setFormData] = useState({
     name: '',
     damName: '',
     state: '',
-    password: '',
-    govtId: ''
+    govtId: '',
+    email: '',
+    phoneNumber: '',
+    password: ''
   });
   const [errors, setErrors] = useState({});
-  const [result, setResult] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  // Handle changes to form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+    setErrorMessage('');
   };
 
-  // Validate form data
+  const handleUserTypeChange = (e) => {
+    setUserType(e.target.value);
+    setFormData({
+      name: '',
+      damName: '',
+      state: '',
+      govtId: '',
+      email: '',
+      phoneNumber: '',
+      password: ''
+    });
+    setErrors({});
+    setErrorMessage('');
+  };
+
   const validate = () => {
     const newErrors = {};
 
     if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.damName) newErrors.damName = 'Dam Name is required';
-    if (!formData.state) newErrors.state = 'State is required';
+    if (userType === 'Admin' && !formData.damName) newErrors.damName = 'Dam Name is required';
+    if (userType === 'Admin' && !formData.state) newErrors.state = 'State is required';
+    if (userType === 'Admin' && !formData.govtId) newErrors.govtId = 'Government ID is required';
+    if (userType === 'Normal User' && !formData.email) newErrors.email = 'Email is required';
+    if (userType === 'Normal User' && !formData.phoneNumber) newErrors.phoneNumber = 'Phone Number is required';
     if (!formData.password) newErrors.password = 'Password is required';
-    if (!formData.govtId) newErrors.govtId = 'Government ID Number is required';
-
-    const passwordRegex = /^(?=.[a-z])(?=.[A-Z])(?=.*\W).{5,15}$/;
-    if (formData.password && !passwordRegex.test(formData.password)) {
-      newErrors.password = 'Password must be 5-15 characters long and include an uppercase letter, lowercase letter, and a special character';
-    }
 
     return newErrors;
   };
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length === 0) {
-      try {
-        const response = await axios.post('http://localhost:8080/api/signup', formData, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          withCredentials: true
-        });
-
-        if (response.status === 200) {
-          localStorage.setItem('username', formData.name); // Store username
-          navigate('/'); // Redirect to home page
-        } else {
-          setResult('Signup failed: ' + response.data.message);
+        try {
+            const response = await axios.post('http://localhost:8080/api/signup', { ...formData, userType });
+            if (response.status === 200 && response.data === 'Signup successful') {
+                navigate('/'); // Redirect to home page
+            } else {
+                setErrorMessage(response.data);
+            }
+        } catch (error) {
+            setErrorMessage(error.response?.data || 'An unexpected error occurred');
         }
-      } catch (error) {
-        console.error('Error submitting signup form', error);
-        setResult('Signup failed: ' + error.message);
-      }
     } else {
-      setErrors(newErrors);
+        setErrors(newErrors);
     }
-  };
+};
 
   return (
     <div className='signup-container'>
       <video className='signup-background' autoPlay loop muted>
         <source src={video} type='video/mp4' />
       </video>
+
       <div className='signup-content'>
-        <Paper elevation={10} square className="signup-paper" style={{ backgroundColor: "silver", maxWidth: '300px', padding: '20px', margin: 'auto', marginTop: '50px' }}>
+        <Paper elevation={10} square className="signup-paper" style={{ backgroundColor: "silver", maxWidth: '500px', padding: '20px', margin: 'auto', marginTop: '50px' }}>
           <Typography variant="h4" align="center" gutterBottom>
             Signup
           </Typography>
+
           <form onSubmit={handleSubmit}>
             <TextField
-              id="name"
-              name="name"
-              label="Name"
-              variant="outlined"
+              id="userType"
+              label="User Type"
+              name="userType"
+              value={userType}
+              onChange={handleUserTypeChange}
+              select
               fullWidth
               required
-              placeholder="Enter your name"
+              SelectProps={{ native: true }}
+            >
+              <option value="Normal User">Normal User</option>
+              <option value="Admin">Admin</option>
+            </TextField>
+
+            <TextField
+              id="name"
+              label="Name"
+              name="name"
               value={formData.name}
               onChange={handleChange}
-              error={!!errors.name}
+              fullWidth
+              required
+              margin="normal"
               helperText={errors.name}
-              style={{ marginBottom: '20px' }}
+              error={Boolean(errors.name)}
             />
-            <TextField
-              id="damName"
-              name="damName"
-              label="Dam Name"
-              variant="outlined"
-              fullWidth
-              required
-              placeholder="Enter your dam name"
-              value={formData.damName}
-              onChange={handleChange}
-              error={!!errors.damName}
-              helperText={errors.damName}
-              style={{ marginBottom: '20px' }}
-            />
-            <TextField
-              id="state"
-              name="state"
-              label="State"
-              variant="outlined"
-              fullWidth
-              required
-              placeholder="Enter your state"
-              value={formData.state}
-              onChange={handleChange}
-              error={!!errors.state}
-              helperText={errors.state}
-              style={{ marginBottom: '20px' }}
-            />
+
+            {userType === 'Admin' && (
+              <>
+                <TextField
+                  id="damName"
+                  label="Dam Name"
+                  name="damName"
+                  value={formData.damName}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                  helperText={errors.damName}
+                  error={Boolean(errors.damName)}
+                />
+                <TextField
+                  id="state"
+                  label="State"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                  helperText={errors.state}
+                  error={Boolean(errors.state)}
+                />
+                <TextField
+                  id="govtId"
+                  label="Government ID"
+                  name="govtId"
+                  value={formData.govtId}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                  helperText={errors.govtId}
+                  error={Boolean(errors.govtId)}
+                />
+              </>
+            )}
+
+            {userType === 'Normal User' && (
+              <>
+                <TextField
+                  id="email"
+                  label="Email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                  helperText={errors.email}
+                  error={Boolean(errors.email)}
+                />
+                <TextField
+                  id="phoneNumber"
+                  label="Phone Number"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  margin="normal"
+                  helperText={errors.phoneNumber}
+                  error={Boolean(errors.phoneNumber)}
+                />
+              </>
+            )}
+
             <TextField
               id="password"
-              name="password"
               label="Password"
+              name="password"
               type="password"
-              variant="outlined"
-              fullWidth
-              required
-              placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
-              error={!!errors.password}
-              helperText={errors.password}
-              style={{ marginBottom: '20px' }}
-            />
-            <TextField
-              id="govtId"
-              name="govtId"
-              label="Government ID Number"
-              variant="outlined"
               fullWidth
               required
-              placeholder="Enter your government ID number"
-              value={formData.govtId}
-              onChange={handleChange}
-              error={!!errors.govtId}
-              helperText={errors.govtId}
-              style={{ marginBottom: '20px' }}
+              margin="normal"
+              helperText={errors.password}
+              error={Boolean(errors.password)}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              size="large"
-              style={{ marginBottom: '20px' }}
-            >
+
+            {errorMessage && (
+              <Typography color="error" align="center" gutterBottom>
+                {errorMessage}
+              </Typography>
+            )}
+
+            <Button type="submit" variant="contained" color="primary" fullWidth>
               Signup
             </Button>
           </form>
-          <Typography variant="body2" color="textSecondary" align="center">
-            {result}
-          </Typography>
         </Paper>
       </div>
     </div>

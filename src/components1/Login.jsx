@@ -9,14 +9,16 @@ import './Login.css';
 import axios from 'axios';
 
 const Login = () => {
+  const [userType, setUserType] = useState('Normal User');
   const [formData, setFormData] = useState({
     name: '',
     damName: '',
-    password: ''
+    password: '',
+    email: '',
+    phoneNumber: ''
   });
   const [errors, setErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -26,41 +28,49 @@ const Login = () => {
     setErrorMessage('');
   };
 
-  const validate = () => {
-    const newErrors = {};
-  
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.damName) newErrors.damName = 'Dam Name is required';
-    if (!formData.password) newErrors.password = 'Password is required';
-    return newErrors;
+  const handleUserTypeChange = (e) => {
+    setUserType(e.target.value);
+    setFormData({
+      name: '',
+      damName: '',
+      password: '',
+      email: '',
+      phoneNumber: ''
+    });
+    setErrors({});
+    setErrorMessage('');
   };
 
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.name && userType === 'Admin') newErrors.name = 'Name is required';
+    if (userType === 'Admin' && !formData.damName) newErrors.damName = 'Dam Name is required';
+    if (userType === 'Normal User' && !formData.email) newErrors.email = 'Email is required';
+    if (userType === 'Normal User' && !formData.phoneNumber) newErrors.phoneNumber = 'Phone Number is required';
+    if (!formData.password) newErrors.password = 'Password is required';
+
+    return newErrors;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length === 0) {
-      try {
-        const response = await axios.post('http://localhost:8080/api/login', formData);
-        if (response.data === 'Login successful') {
-          setIsLoggedIn(true);
-          localStorage.setItem('username', formData.name); // Store username in localStorage
-          navigate('/'); // Redirect to home page
-        } else {
-          // Ensure the error message is a string
-          setErrorMessage(String(response.data)); // Convert to string if it's not already
+        try {
+            const response = await axios.post('http://localhost:8080/api/login', { ...formData, userType });
+            if (response.status === 200 && response.data === 'Login successful') {
+                localStorage.setItem('username', formData.name); // Store username in localStorage
+                navigate('/'); // Redirect to home page
+            } else {
+                setErrorMessage(response.data);
+            }
+        } catch (error) {
+            setErrorMessage(error.response?.data || 'An unexpected error occurred');
         }
-      } catch (error) {
-        if (error.response) {
-          // Convert the error object to a string
-          setErrorMessage(String(error.response.data.message || 'An unexpected error occurred'));
-        } else {
-          setErrorMessage('An unexpected error occurred');
-        }
-      }
     } else {
-      setErrors(newErrors);
+        setErrors(newErrors);
     }
-  };
+};
 
   return (
     <div className='login-container'>
@@ -80,40 +90,93 @@ const Login = () => {
 
           <form onSubmit={handleSubmit}>
             <TextField
-              id="name"
-              name="name"
-              label="Name"
+              id="userType"
+              select
+              label="User Type"
+              value={userType}
+              onChange={handleUserTypeChange}
+              SelectProps={{
+                native: true,
+              }}
               variant="outlined"
               fullWidth
-              required
-              placeholder="Enter your name"
-              value={formData.name}
-              onChange={handleChange}
-              error={!!errors.name}
-              helperText={errors.name}
               style={{ marginBottom: '20px' }}
-            />
+            >
+              <option value="Normal User">Normal User</option>
+              <option value="Admin">Admin</option>
+            </TextField>
 
-            <TextField
-              id="damName"
-              name="damName"
-              label="Dam Name"
-              variant="outlined"
-              fullWidth
-              required
-              placeholder="Enter your dam name"
-              value={formData.damName}
-              onChange={handleChange}
-              error={!!errors.damName}
-              helperText={errors.damName}
-              style={{ marginBottom: '20px' }}
-            />
+            {userType === 'Admin' && (
+              <>
+                <TextField
+                  id="name"
+                  name="name"
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  placeholder="Enter your name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  error={!!errors.name}
+                  helperText={errors.name}
+                  style={{ marginBottom: '20px' }}
+                />
+                <TextField
+                  id="damName"
+                  name="damName"
+                  label="Dam Name"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  placeholder="Enter your dam name"
+                  value={formData.damName}
+                  onChange={handleChange}
+                  error={!!errors.damName}
+                  helperText={errors.damName}
+                  style={{ marginBottom: '20px' }}
+                />
+              </>
+            )}
+
+            {userType === 'Normal User' && (
+              <>
+                <TextField
+                  id="email"
+                  name="email"
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  error={!!errors.email}
+                  helperText={errors.email}
+                  style={{ marginBottom: '20px' }}
+                />
+                <TextField
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  label="Phone Number"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  placeholder="Enter your phone number"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  error={!!errors.phoneNumber}
+                  helperText={errors.phoneNumber}
+                  style={{ marginBottom: '20px' }}
+                />
+              </>
+            )}
 
             <TextField
               id="password"
               name="password"
-              label="Password"
               type="password"
+              label="Password"
               variant="outlined"
               fullWidth
               required
@@ -125,27 +188,22 @@ const Login = () => {
               style={{ marginBottom: '20px' }}
             />
 
+            {errorMessage && <p className='error-message'>{errorMessage}</p>}
+
             <Button
               type="submit"
               variant="contained"
               color="primary"
               fullWidth
-              size="large"
-              style={{ marginBottom: '20px' }}
+              style={{ marginTop: '20px' }}
             >
               Login
             </Button>
-          </form>
-          
-          {errorMessage && (
-            <Typography color="error" align="center">
-              {errorMessage}
-            </Typography>
-          )}
 
-          <Link to="/signup" style={{ display: 'block', textAlign: 'center', marginTop: '10px' }}>
-            Need to signup?
-          </Link>
+            <Typography variant="body2" align="center" style={{ marginTop: '20px' }}>
+              <Link to="/signup">Don't have an account? Sign Up</Link>
+            </Typography>
+          </form>
         </Paper>
       </div>
     </div>
