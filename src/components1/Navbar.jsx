@@ -1,219 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
-// import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
-// import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
-// import IconButton from '@mui/material/IconButton';
-// import Drawer from '@mui/material/Drawer';
-// import List from '@mui/material/List';
-// import ListItemText from '@mui/material/ListItemText';
-// import MenuIcon from '@mui/icons-material/Menu';
-// import CloseIcon from '@mui/icons-material/Close';
-// import Menu from '@mui/material/Menu';
-// import MenuItem from '@mui/material/MenuItem';
-// import Button from '@mui/material/Button';
-// import './Navbar.css';
-
-// const drawerWidth = 150;
-
-// const Navbar = () => {
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
-//   const [username, setUsername] = useState('');
-//   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-//   const [anchorEl, setAnchorEl] = useState(null);
-//   const [isProfileOpen, setIsProfileOpen] = useState(false); // State for toggling logout option
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const loggedInUser = localStorage.getItem('username');
-//     if (loggedInUser) {
-//       setIsLoggedIn(true);
-//       setUsername(loggedInUser);
-//     }
-//   }, []);
-
-//   const handleLogout = () => {
-//     setIsLoggedIn(false);
-//     setUsername('');
-//     localStorage.removeItem('username');
-//     navigate('/login');
-//   };
-
-//   const toggleSidebar = () => {
-//     setIsSidebarOpen(prevState => !prevState);
-//   };
-
-//   const handleCloseSidebar = () => {
-//     setIsSidebarOpen(false);
-//   };
-
-//   const handleCropsClick = (event) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-
-//   const handleMenuClose = () => {
-//     setAnchorEl(null);
-//   };
-
-//   const toggleProfileDropdown = () => {
-//     setIsProfileOpen(prevState => !prevState);
-//   };
-
-//   return (
-//     <>
-//       <AppBar position="fixed" style={{ backgroundColor: "#0073cf" }}>
-//         <Toolbar>
-//           &emsp;&emsp;
-//           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar}>
-//             <MenuIcon />
-//           </IconButton>
-//           <Typography variant="h6" noWrap component="div" style={{ marginRight: "470px" }}>
-//             Blue Field Techno
-//           </Typography>
-
-//           <div className="navbar-links">
-//             <Link to="/" className="navbar-link">
-//               <Button style={{color:"white"}}>
-//                 Home
-//               </Button>
-//             </Link>
-
-//             {!isLoggedIn ? (
-//               <>
-//                 <Link to="/login" className="navbar-link">
-//                   <Button style={{color:"white"}}>
-//                     Login
-//                   </Button>
-//                 </Link>
-
-//                 <Link to="/signup" className="navbar-link">
-//                   <Button style={{color:"white"}}>
-//                     Sign Up
-//                   </Button>
-//                 </Link>
-//               </>
-//             ) : (
-//               <>
-//                 <Button  aria-controls="crops-menu"
-//                   aria-haspopup="true"
-//                   onClick={handleCropsClick}
-//                   style={{fontSize:"14.5px",color:"white"}}
-//                 >
-//                   Crops&emsp;
-//                 </Button>
-//                 <Menu
-//                   id="crops-menu"
-//                   anchorEl={anchorEl}
-//                   keepMounted
-//                   open={Boolean(anchorEl)}
-//                   onClose={handleMenuClose}
-//                 >
-//                   <MenuItem onClick={handleMenuClose}>
-//                     <Link to="/cropimprovement" className="menu-link">
-//                       <Button>
-//                         Crop Improvement
-//                       </Button>
-//                     </Link>
-//                   </MenuItem>
-//                   <MenuItem onClick={handleMenuClose}>
-//                     <Link to="/cropmanagement" className="menu-link">
-//                       <Button>
-//                         Crop Management
-//                       </Button>
-//                     </Link>
-//                   </MenuItem>
-//                   <MenuItem onClick={handleMenuClose}>
-//                     <Link to="/cropirrigation" className="menu-link">
-//                       <Button>
-//                         Crop Irrigation
-//                       </Button>
-//                     </Link>
-//                   </MenuItem>
-//                 </Menu>
-
-//                 <Link to="/weather1" className="navbar-link">
-//                   <Button style={{color:"white"}}>
-//                     Weather
-//                   </Button>
-//                 </Link>
-//                 <Link to="/maps" className="navbar-link">
-//                   <Button style={{color:"white"}}>
-//                     Maps
-//                   </Button>
-//                 </Link>
-//                 <Link to="/cropweather">
-//                   <Button style={{color:"white"}}>Crop Weather</Button>
-//                 </Link>
-//                 <Link to="/carbornfootprint">
-//                   <Button style={{color:"white"}}>Carborn Footprint</Button>
-//                 </Link>
-
-//                 <div className="navbar-profile" onClick={toggleProfileDropdown} style={{cursor: 'pointer'}}>
-//                   <div className="profile-circle">
-//                     <span>{username.charAt(0)}</span>
-//                   </div>
-//                   {isProfileOpen && (
-//                     <div className="profile-dropdown">
-//                       <span className="profile-username">{username}</span>
-//                       <button className="logout-button" onClick={handleLogout}>Logout</button>
-//                     </div>
-//                   )}
-//                 </div>
-//               </>
-//             )}
-//           </div>
-//         </Toolbar>
-//       </AppBar>
-
-//       <Drawer
-//         variant="persistent"
-//         anchor="left"
-//         open={isSidebarOpen}
-//         sx={{
-//           width: drawerWidth,
-//           flexShrink: 0,
-//           '& .MuiDrawer-paper': {
-//             width: drawerWidth,
-//             boxSizing: 'border-box',
-//             backgroundColor: '#0073cf',
-//             color: '#fff',
-//           },
-//         }}
-//       >
-//         <Toolbar />
-//         <div className="sidebar-header">
-//           <IconButton edge="start" color="inherit" aria-label="close" onClick={handleCloseSidebar}>
-//             <CloseIcon />
-//           </IconButton>
-//         </div>
-//         <Box sx={{ overflow: 'auto' }}>
-//           <List>
-//             <Link to="/weather">
-//               <Button>
-//                 <ListItemText primary="Weather" />
-//               </Button>
-//             </Link>
-//             <a href="http://tnagriculture.in/ARS/home/reservoir" target="_blank">
-//               <Button>
-//                 <ListItemText primary="Dam Level" />
-//               </Button>
-//             </a>
-//             <Link to="/daminspection">
-//               <Button><ListItemText primary="Inspection" /></Button>
-//             </Link>
-//             <Link to="/email">
-//               <Button><ListItemText primary="Email" /></Button>
-//             </Link>
-//           </List>
-//         </Box>
-//       </Drawer>
-//     </>
-//   );
-// };
-
-// export default Navbar;
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
@@ -230,6 +14,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import MicIcon from '@mui/icons-material/Mic';
+import Avatar from '@mui/material/Avatar';
 import './Navbar.css';
 
 const drawerWidth = 150;
@@ -293,6 +78,7 @@ const Navbar = () => {
   const [language, setLanguage] = useState('en');
   const navigate = useNavigate();
   const recognitionRef = useRef(null);
+  const profileButtonRef = useRef(null);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('username');
@@ -412,17 +198,16 @@ const Navbar = () => {
     <>
       <AppBar position="fixed" style={{ backgroundColor: "#0073cf" }}>
         <Toolbar>
-          &emsp;&emsp;
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleSidebar}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" style={{ marginRight: "470px" }}>
+          <Typography variant="h6" noWrap component="div" style={{ marginRight: "auto" }}>
             {translations[language].title}
           </Typography>
 
           <div className="navbar-links">
             <Link to="/" className="navbar-link">
-              <Button style={{color:"white"}}>
+              <Button style={{ color: "white" }}>
                 {translations[language].home}
               </Button>
             </Link>
@@ -430,24 +215,24 @@ const Navbar = () => {
             {!isLoggedIn ? (
               <>
                 <Link to="/login" className="navbar-link">
-                  <Button style={{color:"white"}}>
+                  <Button style={{ color: "white" }}>
                     {translations[language].login}
                   </Button>
                 </Link>
 
                 <Link to="/signup" className="navbar-link">
-                  <Button style={{color:"white"}}>
+                  <Button style={{ color: "white" }}>
                     {translations[language].signup}
                   </Button>
                 </Link>
               </>
             ) : (
               <>
-                <Button 
+                <Button
                   aria-controls="crops-menu"
                   aria-haspopup="true"
                   onClick={handleCropsClick}
-                  style={{fontSize:"14.5px",color:"white"}}
+                  style={{ fontSize: "14.5px", color: "white" }}
                 >
                   {translations[language].crops}&emsp;
                 </Button>
@@ -482,44 +267,48 @@ const Navbar = () => {
                 </Menu>
                 
                 <Link to="/weather1" className="navbar-link">
-                  <Button style={{color:"white"}}>
+                  <Button style={{ color: "white" }}>
                     {translations[language].weather}
                   </Button>
                 </Link>
+
                 <Link to="/maps" className="navbar-link">
-                  <Button style={{color:"white"}}>
+                  <Button style={{ color: "white" }}>
                     {translations[language].maps}
                   </Button>
                 </Link>
+
                 <Link to="/cropweather" className="navbar-link">
-                  <Button style={{color:"white"}}>
+                  <Button style={{ color: "white" }}>
                     {translations[language].cropWeather}
                   </Button>
                 </Link>
+
                 <Link to="/carbornfootprint" className="navbar-link">
-                  <Button style={{color:"white"}}>
+                  <Button style={{ color: "white" }}>
                     {translations[language].carbonFootprint}
                   </Button>
                 </Link>
-
-                <Button
-                  onClick={toggleProfileDropdown}
-                  style={{color:"white"}}
-                >
-                  {translations[language].profile}
-                </Button>
-                {isProfileOpen && (
-                  <div className="profile-dropdown">
-                    <Button onClick={handleLogout}>
-                      {translations[language].logout}
-                    </Button>
-                  </div>
-                )}
+                
+                
               </>
             )}
-            <Button 
+
+            <Button
+              id="btnGiveCommand"
+              aria-controls="voice-menu"
+              aria-haspopup="true"
+              style={{ color: "white" }}
+            >
+              <MicIcon />
+              {translations[language].voice}
+            </Button>
+
+            <Button
+              aria-controls="language-menu"
+              aria-haspopup="true"
               onClick={handleLanguageMenuOpen}
-              style={{color:"white"}}
+              style={{ color: "white" }}
             >
               {translations[language].language}
             </Button>
@@ -537,57 +326,67 @@ const Navbar = () => {
                 {translations[language].tamil}
               </MenuItem>
             </Menu>
+
+            
+                <Button
+                  ref={profileButtonRef}
+                  onClick={toggleProfileDropdown}
+                  style={{ color: "white" }}
+                >
+                  <Avatar>{username.charAt(0)}</Avatar>
+                </Button>
+                <Menu
+                  anchorEl={profileButtonRef.current}
+                  open={isProfileOpen}
+                  onClose={toggleProfileDropdown}
+                >
+                  <MenuItem disabled>{username}</MenuItem>
+                  <MenuItem onClick={handleLogout}>
+                    {translations[language].logout}
+                  </MenuItem>
+                </Menu>
           </div>
-          <IconButton
-            id="btnGiveCommand"
-            color="inherit"
-            aria-label="voice command"
-          >
-            <MicIcon />
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
-        variant="temporary"
+        variant="persistent"
         anchor="left"
         open={isSidebarOpen}
-        onClose={toggleSidebar}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+            backgroundColor: '#0073cf',
+            color: '#fff',
           },
         }}
       >
-        <Box sx={{ textAlign: 'center' }}>
-          <IconButton onClick={toggleSidebar}>
+        <Toolbar />
+        <div className="sidebar-header">
+          <IconButton edge="start" color="inherit" aria-label="close" onClick={handleCloseSidebar}>
             <CloseIcon />
           </IconButton>
+        </div>
+        <Box sx={{ overflow: 'auto' }}>
           <List>
-            <Link to="/" onClick={toggleSidebar} className="sidebar-link">
-              <ListItemText primary={translations[language].home} />
+            <Link to="/weather">
+              <Button>
+                <ListItemText primary={translations[language].weather} />
+              </Button>
             </Link>
-            {!isLoggedIn ? (
-              <>
-                <Link to="/login" onClick={toggleSidebar} className="sidebar-link">
-                  <ListItemText primary={translations[language].login} />
-                </Link>
-                <Link to="/signup" onClick={toggleSidebar} className="sidebar-link">
-                  <ListItemText primary={translations[language].signup} />
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/profile" onClick={toggleSidebar} className="sidebar-link">
-                  <ListItemText primary={translations[language].profile} />
-                </Link>
-                <Link to="/logout" onClick={toggleSidebar} className="sidebar-link">
-                  <ListItemText primary={translations[language].logout} />
-                </Link>
-              </>
-            )}
+            <a href="http://tnagriculture.in/ARS/home/reservoir" target="_blank" rel="noopener noreferrer">
+              <Button>
+                <ListItemText primary={translations[language].damLevel} />
+              </Button>
+            </a>
+            <Link to="/daminspection">
+              <Button><ListItemText primary={translations[language].inspection} /></Button>
+            </Link>
+            <Link to="/email">
+              <Button><ListItemText primary={translations[language].email} /></Button>
+            </Link>
           </List>
         </Box>
       </Drawer>
@@ -596,4 +395,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
