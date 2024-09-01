@@ -1,4 +1,3 @@
-
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -47,11 +46,42 @@ body {
 
 .flip-card-back1 {
   background-color: #bdc6cb;
-  color: white;
+  color: black;
   transform: rotateY(180deg);
 }
 
 h1, h3 {
   text-align: center;
   margin: 20px 0;
+}
+.dil
+{
+  background-image: url("https://cdn11.bigcommerce.com/s-tjrce8etun/images/stencil/original/uploaded_images/large-agriculture-field.jpg?t=1709662192");
+  background-size: cover;
+  
+}
+
+.ir-container {
+  position: relative;
+  width: 100%;
+  height: 290vh;
+  overflow: hidden;
+}
+
+.ir-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.ir-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 20px;
+  color: black;
 }
